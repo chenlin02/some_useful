@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+  </head>
+  <body>
+    <script>
+    let emitter = {
+      obj: {},
+      on(name, fn) {
+        if(!this.obj[name]) {
+          this.obj[name] = []
+        }
+        this.obj[name].push(fn)
+      },
+      emit(name, ...fn) {
+        if(!this.obj[name]) {
+          return
+        }
+        this.obj[name].forEach(function(element) {
+          element.apply(this, fn)
+        });
+      },
+      off(name, fn) {
+        if(!fn) {
+          this.obj[name] = []
+        }
+        const index = this.obj[name].indexOf(fn)
+        this.obj[name].splice(index, 1)
+      },
+      once(name, fn) {
+        let only = function() {
+          fn()
+          this.off(name, only)
+        }
+        this.emit(name, only)
+      }
+    } 
+    function go() {
+      console.log('go')
+    } 
+    const to = () => {
+      console.log('to')
+    }
+    emitter.on('goa', go)
+    emitter.on('goa', to)
+    emitter.emit('goa')
+    </script>
+  </body>
+</html>

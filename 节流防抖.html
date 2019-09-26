@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+  </head>
+  <body style="height:1500px">
+    <script>
+      function shake(fn, time) {
+        let timer;
+        return function() {
+          clearTimeout(timer);
+          timer = setTimeout(function() {
+            fn.call(this, arguments);
+          }, time);
+        };
+      }
+      function scoge(fn, time) {
+        let bool = true;
+        return function() {
+          if (!bool) {
+            return;
+          }
+          bool = false;
+          setTimeout(function() {
+            fn.call(this, arguments);
+            bool = true;
+          }, time);
+        };
+      }
+
+      function go() {
+        console.log("go");
+      }
+
+      window.onclick = shake(go, 1000);
+      window.onscroll = scoge(go, 1000);
+    </script>
+  </body>
+</html>

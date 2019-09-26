@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
-</head>
-<body>
-<script>
-  function Foo(firstName, lastName){
-    this.firstName = firstName;
-    this.lastName = lastName;
-  }
-  Foo.prototype.logName = function(){
-    //Foo.combineName();   会报错
-   // Foo.prototype.combineName();  //undefined undefined
-    this.combineName();   //这个才是正确输出
-    console.log(this.fullName);
-  }
-  Foo.prototype.combineName = function(){
-    this.fullName = `${this.firstName} ${this.lastName}`
-  }
-
-  var foo = new Foo('Sanfeng', 'Zhang');
-
-
-  //foo.__proto__ = Foo.prototype;
-  //foo.__proto__.__proto__ = Foo.prototype.__proto__ = Object.prototype;
-  //foo.__proto__.__proto__.__proto__ = Foo.prototype.__proto__.__proto__ = Object.prototype.__proto__ = null;
-  foo.logName();
-</script>
-</body>
+  </head>
+  <body>
+    <script>
+      function father(a, b) {
+        this.a = a;
+        this.b = b;
+      }
+      father.prototype.say = function() {
+        console.log(this.a);
+      };
+      function son(a, b) {
+        father.call(this);
+        this.a = a;
+        this.b = b;
+      }
+      
+      function come(aFather, bSon) {
+        let proto = Object.create(aFather.prototype);
+        proto.constructor = bSon;
+        bSon.prototype = proto;
+      }
+      come(father, son);
+      //子类这里的原型方法必须加在come方法调用的后面
+      son.prototype.ago = function() {
+        console.log(this.b);
+      };
+      let newSon = new son("ok", "aha");
+      newSon.say();
+      newSon.ago();
+    </script>
+  </body>
 </html>

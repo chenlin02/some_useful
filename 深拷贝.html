@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+  </head>
+  <body>
+    <script>
+      function deepClone(obj) {
+        let list;
+        if (Object.prototype.toString.call(obj) === '[object Array]') {
+          list = []
+          for (let i = 0; i < obj.length; i++) {
+            list.push(deepClone(obj[i]))
+          }
+        }
+        else if (Object.prototype.toString.call(obj) === '[object Object]') {
+          list = {}
+          for (let i in obj) {
+            list[i] = deepClone(obj[i]) 
+          }
+        } else {
+          return obj
+        }
+        return list
+      }
+      let arr = [1,2,3]
+      let obj = {
+        a:1,
+        b:2
+      }
+      let newArr = deepClone(arr)
+      newArr[1] = 9
+      let newObj = deepClone(obj)
+      newObj.a = 7
+      console.log(newArr, newObj)
+    </script>
+  </body>
+</html>
