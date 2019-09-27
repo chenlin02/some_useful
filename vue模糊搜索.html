@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <input type="text" v-model="msg" />
+      <div>
+        <ul>
+          <li v-for='(val, index) in amsg' :key='index'>{{val}}</li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        computed: {
+          amsg() {
+            if(this.msg) {
+              let that = this
+              return this.content.filter(function(val) {
+                return val.includes(that.msg)
+              })
+            }
+          }
+        },
+        data() {
+          return {
+            msg: "",
+            content: [
+              "阿斯顿发",
+              "告诉对方",
+              "阿斯而为顿发",
+              "而更舒服",
+              "公司股份",
+              "规范化",
+              "服务额头",
+              "扶桑岛国",
+              "服务俄方",
+              "官方的时光"
+            ]
+          };
+        }
+      });
+    </script>
+  </body>
+</html>

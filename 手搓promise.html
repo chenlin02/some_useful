@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function mypromise(callback) {
+        let that = this;
+        that.status = "pendding";
+        that.reason = null;
+        that.state = null;
+
+        function resolve(state) {
+          if (that.status === "pendding") {
+            that.status = "resolved";
+            that.state = state;
+          }
+        }
+        function reject(reason) {
+          if (that.status === "pendding") {
+            that.status = "rejected";
+            that.reason = reason;
+          }
+        }
+
+        try {
+          callback(resolve, reject);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      mypromise.prototype.then = function(onresolved, onrejected) {
+        let that = this;
+        if (that.status === "resolved") {
+          onresolved(that.state);
+        }
+        if (that.status === "rejected") {
+          onrejected(that.reason);
+        }
+      };
+      var promise = new mypromise(function(resolve, reject){
+        resolve('chan')
+      }) 
+      promise.then(function(e) {
+        console.log(e)
+      })
+    </script>
+  </body>
+</html>
