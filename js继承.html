@@ -1,37 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <title>Title</title>
-  </head>
-  <body>
+</head>
+
+<body>
     <script>
-      function father(a, b) {
-        this.a = a;
-        this.b = b;
-      }
-      father.prototype.say = function() {
-        console.log(this.a);
-      };
-      function son(a, b) {
-        father.call(this);
-        this.a = a;
-        this.b = b;
-      }
-      
-      function come(aFather, bSon) {
-        let proto = Object.create(aFather.prototype);
-        proto.constructor = bSon;
-        bSon.prototype = proto;
-      }
-      come(father, son);
-      //子类这里的原型方法必须加在come方法调用的后面
-      son.prototype.ago = function() {
-        console.log(this.b);
-      };
-      let newSon = new son("ok", "aha");
-      newSon.say();
-      newSon.ago();
+        // 组合继承
+        function con(name, age) {
+            this.name = name
+            this.age = age
+            this.say = function() {
+                console.log(this.name, this.age)
+            }
+        }
+
+        function son(name, age) {
+            con.call(this)
+            this.name = name
+            this.age = age
+        }
+
+        son.prototype = new con()
+        son.prototype.constructor = son // 修复指针
+        var dd = new son('chan', 32)
+        dd.say()
+            // 寄生组合继承
+        function father(a, b) {
+            this.a = a
+            this.b = b
+        }
+        father.prototype.say = function() {
+            console.log(this.a)
+        }
+
+        function son(a, b) {
+            father.call(this)
+            this.a = a
+            this.b = b
+        }
+
+        function come(aFather, bSon) {
+            let proto = Object.create(aFather.prototype)
+            proto.constructor = bSon
+            bSon.prototype = proto
+        }
+        come(father, son)
+        son.prototype.constructor = son
+            //子类这里的原型方法必须加在come方法调用的后面
+        son.prototype.ago = function() {
+            console.log(this.b)
+        }
+        let newSon = new son('ok', 'aha')
+        newSon.say()
+        newSon.ago()
+
+        // Object.create 手动实现
+        function shou(obj) {
+            function fn() {}
+            fn.prototype = obj
+            return new fn()
+        }
     </script>
-  </body>
+</body>
+
 </html>
