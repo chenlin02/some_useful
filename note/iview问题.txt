@@ -1,0 +1,10 @@
+select 下拉框开启搜索功能之后，导致下拉框里只有选中的那个值的时候，label值要给正确
+1，有问题的
+<Select v-model="row.a">
+<Option v-for="item in list" :key="item.label" :value="item.value">{{item.label}}</Option>
+</Select>
+
+2，正确的
+<Select v-model="row.a">
+<Option v-for="item in list" :key="item.label" :value="item.value" :label="item.label"></Option>
+</Select>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //对象的继承，这里采用构造函数继承+类式继承
+        function Person(name, sex, age) {
+            this.name = name
+            this.sex = sex
+            this.age = age
+        }
+
+        Person.prototype.getName = function() {
+            return this.name
+        }
+
+        function Student(school, name, sex, age) {
+            Person.call(this, name, sex, age) //构造函数继承，保证实例之间不会互相影响
+            this.school = school
+        }
+
+        Student.prototype = new Person() //类式继承，解决构造函数继承不能继承定义在外面的原型链的方法<br>Student.prototype.constructor = Student;//不然student1.constructor = Person
+
+        var student1 = new Student('西都小学1', '1', '男1', 21)
+        var student2 = new Student('西都小学2', '2', '男2', 22)
+
+        console.log(student1.getName()) //1
+        student1.name = '修改'
+        console.log(student1.name) //修改
+        console.log(student2.name) //2
+
+        //多态就是构造函数根据传入的变量不同，对同一方法，有不同的返回结果
+        //比如
+        function Math() {
+            function zero() {
+                return 10
+            }
+
+            function one(num) {
+                return 10 + num
+            }
+            this.add = function() {
+                switch (arguments.length) {
+                    case 0:
+                        return zero()
+                        break
+                    case 1:
+                        return one(arguments[0])
+                        break
+                }
+            }
+        }
+        var math1 = new Math()
+        console.log(math1.add()) //10
+        console.log(math1.add(10)) //20
+
+        //封装就是有些私有的属性和方法，用户只能通过公有方法去访问这些私有属性
+        function Company(name) {
+            var personNum = 0
+            this.name = name
+            this.getNum = function() {
+                return personNum
+            }
+            this.addNum = function() {
+                personNum++
+            }
+        }
+        var company1 = new Company('保时捷')
+        var company2 = new Company('宝马')
+        console.log(company1.getNum()) //0
+        company1.addNum()
+        console.log(company1.getNum()) //1
+        console.log(company2.getNum()) //0
+        console.log(company1.personNum) //undefined
+    </script>
+</body>
+
+</html>
