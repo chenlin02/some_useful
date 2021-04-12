@@ -8,5 +8,5 @@ function download(url, filename) {
         window.URL.revokeObjectURL(url);
     }))
 }
-
+github username: shanshanbaobao password: Shanshan0727
 C:\Users\Administrator\AppData\Local\Google\Chrome\Application\chrome.exe --disable-web-security --user-data-dir
