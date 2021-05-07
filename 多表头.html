@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+</head>
+
+<body>
+    <script>
+        let tableData = [{
+            id: 1,
+            name: '电网基建',
+            value: 'see',
+            year: 2002,
+            month: '1月',
+            week: '第1周',
+            key: '2002-1-1'
+        }, {
+            id: 1,
+            name: '电网基建',
+            value: 'see',
+            year: 2002,
+            month: '1月',
+            week: '第2周',
+            key: '2002-1-2'
+        }, {
+            id: 1,
+            name: '电网基建',
+            value: 'see',
+            year: 2002,
+            month: '1月',
+            week: '第3周',
+            key: '2002-1-3'
+        }, {
+            id: 1,
+            name: '电网基建',
+            value: 'see',
+            year: 2002,
+            month: '1月',
+            week: '第4周',
+            key: '2002-1-4'
+        }, {
+            id: 1,
+            name: '电网基建',
+            value: 'see',
+            year: 2002,
+            month: '2月',
+            week: '第1周',
+            key: '2002-2-1'
+        }, {
+            id: 1,
+            name: '电网基建',
+            value: 'see',
+            year: 2002,
+            month: '2月',
+            week: '第2周',
+            key: '2002-2-2'
+        }, {
+            id: 1,
+            name: '电网基建',
+            value: 'see',
+            year: 2002,
+            month: '3月',
+            week: '第2周',
+            key: '2002-3-1'
+        }, {
+            id: 1,
+            name: '电网基建',
+            value: 'see',
+            year: 2002,
+            month: '3月',
+            week: '第2周',
+            key: '2002-3-2'
+        }]
+
+        function groupBy(type, arr) {
+            let group = {}
+            arr.forEach(item => {
+                let value = item[type]
+                group[value] = group[value] || []
+                group[value].push(item)
+            })
+            return group
+        }
+
+        function kaji(data, typeList, level = 0, arr = []) {
+            let alldata = groupBy(typeList[level], data)
+            for (let i in alldata) {
+                let obj = typeList.length - 1 === level ? {
+                    title: i,
+                    key: alldata[i][0].key,
+                    value: alldata[i][0].value
+                } : {
+                    title: i,
+                    children: []
+                }
+                arr.push(obj)
+                if (typeList.length - 1 > level) {
+                    kaji(alldata[i], typeList, level + 1, obj.children)
+                }
+            }
+            console.log(arr)
+        }
+        kaji(tableData, ['year', 'month', 'week'])
+    </script>
+</body>
+
+</html>
