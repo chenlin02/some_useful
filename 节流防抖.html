@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <title>Title</title>
-  </head>
-  <body style="height:1500px">
+</head>
+
+<body style="height:1500px">
     <script>
-      function shake(fn, time) {
-        let timer;
-        return function() {
-          clearTimeout(timer);
-          timer = setTimeout(function() {
-            fn.call(this, arguments);
-          }, time);
-        };
-      }
-      function scoge(fn, time) {
-        let bool = true;
-        return function() {
-          if (!bool) {
-            return;
-          }
-          bool = false;
-          setTimeout(function() {
-            fn.call(this, arguments);
-            bool = true;
-          }, time);
-        };
-      }
+        function debounce(fn, time) {
+            let timer = null;
+            return function() {
+                timer && clearTimeout(timer);
+                timer = setTimeout(function() {
+                    fn.call(this, arguments);
+                }, time);
+            };
+        }
 
-      function go() {
-        console.log("go");
-      }
+        function throttle(fn, time) {
+            let bool = true;
+            return function() {
+                if (!bool) {
+                    return;
+                }
+                bool = false;
+                setTimeout(function() {
+                    fn.call(this, arguments);
+                    bool = true;
+                }, time);
+            };
+        }
 
-      window.onclick = shake(go, 1000);
-      window.onscroll = scoge(go, 1000);
+        function go() {
+            console.log("go");
+        }
+
+        window.onclick = debounce(go, 1000);
+        window.onscroll = throttle(go, 1000);
     </script>
-  </body>
+</body>
+
 </html>
