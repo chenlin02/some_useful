@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 只能通过myself函数访问return的内容，不能访问，其num变量和calcNum函数
+    function myself(params) {
+      let num = 0
+      function calcNum(params) {
+        num += params
+      }
+
+      return {
+        increate: function (params = 1) {
+          calcNum(params)
+        },
+        decrement: function (params = -1) {
+          calcNum(params)
+        },
+        result: function () {
+          return num
+        }
+      }
+    }
+    let dd = myself()
+    dd.increate()
+    dd.increate(9)
+    console.log(dd.result());
+
+    // 如果是如下调用方式的话，变量会被回收，num的值只会保留单次调用的结果
+    myself().increate()
+    myself().increate(9)
+    console.log(myself().result());
+  </script>
+</body>
+</html>
